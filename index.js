@@ -1,6 +1,7 @@
-import { getHomeDirectory, goPreviousDirectory, getCurrentDirectoryString, getElements, goToDirectory } from './modules/utils.js';
+import { getHomeDirectory, goPreviousDirectory, getCurrentDirectoryString, getElements, goToDirectory, getCpuInfo } from './modules/utils.js';
 import * as readline from 'readline';
 import { sep } from 'path';
+import * as os from 'os';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -9,20 +10,34 @@ const rl = readline.createInterface({
 
 let lastArgument = process.argv.slice(3).toString();
 let userName = lastArgument.slice(11, lastArgument.length);
-let homeDirectory = getHomeDirectory();
+let currentDirectory = getHomeDirectory();
 console.log(`Welcome to the File Manager, ${userName}!`);
-console.log(`You are currently in ${getHomeDirectory()}`);
-let currentDirectory = homeDirectory.split(sep);
+console.log(`You are currently in ${currentDirectory}`);
+
+//let currentDirectory = homeDirectory.split(sep);
+//join(currentDirectory);
+//console.log(process.chdir(currentDirectory));
+//console.log(process.cwd(currentDirectory));
+//console.log(process.chdir('./rsschool'));
 
 try {
   rl.on('line', (command) => {
-    //command.startsWith('up')
     if (command === 'up') {
       currentDirectory = goPreviousDirectory(currentDirectory);
     } else
   
     if (command === 'ls') {
       getElements(currentDirectory);
+    } else
+
+    if (command === 'os --EOL') {
+      console.log(JSON.stringify(os.EOL));
+      console.log(`You are currently in ${currentDirectory}`);
+    } else
+
+    if (command === 'os --cpus') {
+      getCpuInfo();
+      console.log(`You are currently in ${currentDirectory}`);
     } else
 
     if (command.startsWith('cd ')) {
