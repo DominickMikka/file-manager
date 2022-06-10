@@ -1,4 +1,5 @@
 import { goPreviousDirectory, goToDirectory, getElements } from './modules/navigate.mjs';
+import { readFile } from './modules/filesOperations.mjs';
 import { calculateHash } from './modules/hash.mjs';
 import { 
          getHomeDirectory, 
@@ -34,13 +35,15 @@ try {
   rl.on('line', async (command) => {
     if (command === 'up') currentDirectory = goPreviousDirectory(currentDirectory);
     else if (command === 'ls') await getElements(currentDirectory);
+    else if (command.startsWith('cd ')) currentDirectory = await goToDirectory(command, currentDirectory);
+    else if (command.startsWith('cat ')) await readFile(currentDirectory, command);
     else if (command.startsWith('hash ')) calculateHash(command);
     else if (command === 'os --EOL') printOsEol();
     else if (command === 'os --cpus') getCpuInfo();
     else if (command === 'os --homedir') printOsHomedir(); 
     else if (command === 'os --username') printOsUsername();
     else if (command === 'os --architecture') printOsArch();
-    else if (command.startsWith('cd ')) currentDirectory = await goToDirectory(command, currentDirectory);
+
     else if (command === '.exit') {
       exitFileManager(userName);
       rl.close();

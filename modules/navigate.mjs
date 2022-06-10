@@ -15,7 +15,6 @@ export const goToDirectory = async (path, currentDirectory) => {
     console.log('Invalid input! This directory is not exists!')
     return currentDirectory
   }
-  
 }
 
 export const getElements = async (path) => {
