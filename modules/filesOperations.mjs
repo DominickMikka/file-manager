@@ -1,4 +1,4 @@
-import { open } from 'fs/promises';
+import { open , writeFile } from 'fs/promises';
 import { resolve } from 'path';
 
 export const readFile = async (currentDirectory, path) => {
@@ -15,3 +15,10 @@ export const readFile = async (currentDirectory, path) => {
     console.log(`\nYou are currently in ${currentDirectory}`);
   });
 };
+
+export const createFile = async (currentDirectory, path) => {
+  path = path.slice(4, path.length).trim();
+  path = resolve(currentDirectory, path);
+  const file = await open(path, 'wx');
+  file.close();
+}

@@ -1,5 +1,5 @@
 import { goPreviousDirectory, goToDirectory, getElements } from './modules/navigate.mjs';
-import { readFile } from './modules/filesOperations.mjs';
+import { readFile, createFile } from './modules/filesOperations.mjs';
 import { calculateHash } from './modules/hash.mjs';
 import { 
          getHomeDirectory, 
@@ -37,6 +37,7 @@ try {
     else if (command === 'ls') await getElements(currentDirectory);
     else if (command.startsWith('cd ')) currentDirectory = await goToDirectory(command, currentDirectory);
     else if (command.startsWith('cat ')) await readFile(currentDirectory, command);
+    else if (command.startsWith('add ')) await createFile(currentDirectory, command);
     else if (command.startsWith('hash ')) calculateHash(command);
     else if (command === 'os --EOL') printOsEol();
     else if (command === 'os --cpus') getCpuInfo();
