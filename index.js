@@ -1,7 +1,16 @@
-import { getHomeDirectory, goPreviousDirectory, getCurrentDirectoryString, getElements, goToDirectory, getCpuInfo } from './modules/utils.js';
+import { goPreviousDirectory, goToDirectory, getElements } from './modules/navigate.mjs';
+import { calculateHash } from './modules/hash.mjs';
+import { 
+         getHomeDirectory, 
+         printOsEol, 
+         getCpuInfo, 
+         printOsHomedir, 
+         printOsUsername, 
+         printOsArch 
+        } from './modules/os.mjs';
+import { exitFileManager } from './modules/exit.mjs';
+
 import * as readline from 'readline';
-import { sep } from 'path';
-import * as os from 'os';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -16,48 +25,36 @@ console.log(`You are currently in ${currentDirectory}`);
 
 //let currentDirectory = homeDirectory.split(sep);
 //join(currentDirectory);
+//resolve
 //console.log(process.chdir(currentDirectory));
 //console.log(process.cwd(currentDirectory));
 //console.log(process.chdir('./rsschool'));
 
 try {
-  rl.on('line', (command) => {
-    if (command === 'up') {
-      currentDirectory = goPreviousDirectory(currentDirectory);
-    } else
-  
-    if (command === 'ls') {
-      getElements(currentDirectory);
-    } else
-
-    if (command === 'os --EOL') {
-      console.log(JSON.stringify(os.EOL));
-      console.log(`You are currently in ${currentDirectory}`);
-    } else
-
-    if (command === 'os --cpus') {
-      getCpuInfo();
-      console.log(`You are currently in ${currentDirectory}`);
-    } else
-
-    if (command.startsWith('cd ')) {
-      currentDirectory = goToDirectory(command, currentDirectory);
-    } else
-  
-    if (command === '.exit') {
-      console.log(`Thank you for using File Manager, ${userName}!`)
+  rl.on('line', async (command) => {
+    if (command === 'up') currentDirectory = goPreviousDirectory(currentDirectory);
+    else if (command === 'ls') await getElements(currentDirectory);
+    else if (command.startsWith('hash ')) calculateHash(command);
+    else if (command === 'os --EOL') printOsEol();
+    else if (command === 'os --cpus') getCpuInfo();
+    else if (command === 'os --homedir') printOsHomedir(); 
+    else if (command === 'os --username') printOsUsername();
+    else if (command === 'os --architecture') printOsArch();
+    else if (command.startsWith('cd ')) currentDirectory = await goToDirectory(command, currentDirectory);
+    else if (command === '.exit') {
+      exitFileManager(userName);
       rl.close();
-    } else {
-      console.log('Invalid input');
+      return
     }
-    
+    else console.log('Invalid input');
+
+    console.log(`You are currently in ${currentDirectory}`);
   });
 } catch(err) {
   console.log('Operation failed');
 }
 
-
 rl.on('SIGINT', () => {
-  console.log(`Thank you for using File Manager, ${userName}!`)
+  exitFileManager(userName);
   rl.close();
 });
