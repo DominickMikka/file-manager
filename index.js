@@ -38,7 +38,7 @@ try {
     else if (command.startsWith('cd ')) currentDirectory = await goToDirectory(command, currentDirectory);
     else if (command.startsWith('cat ')) await readFile(currentDirectory, command);
     else if (command.startsWith('add ')) await createFile(currentDirectory, command);
-    else if (command.startsWith('hash ')) calculateHash(command);
+    else if (command.startsWith('hash ')) calculateHash(currentDirectory, command);
     else if (command === 'os --EOL') printOsEol();
     else if (command === 'os --cpus') getCpuInfo();
     else if (command === 'os --homedir') printOsHomedir(); 

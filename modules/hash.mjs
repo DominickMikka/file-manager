@@ -1,23 +1,25 @@
 import { createReadStream } from 'fs';
 import { createHash } from 'crypto';
+import { resolve } from 'path';
 
-export const calculateHash = (path) => {
-  //console.log(dirname(path));
+export const calculateHash = (currentDirectory, path) => {
+  
   path = path.slice(5, path.length).trim();
-  //if (isAbsolute(path)) {
-    
-    const file = createReadStream(path);
-    let hash = createHash('sha256');
+  path = resolve(currentDirectory, path);
 
-    file.on('readable', () => {
-      const chunk = file.read();
+  const file = createReadStream(path);
+  let hash = createHash('sha256');
 
-      if (chunk) {
-        hash = createHash('sha256');
-        hash.update(chunk);
-      }
-    })
+  file.on('readable', () => {
+    const chunk = file.read();
 
-    console.log(`Hash this file is: ${hash.digest('hex')}`);
-  //}
+    if (chunk) {
+      hash = createHash('sha256');
+      hash.update(chunk);
+    }
+  });
+
+  console.log(`Hash this file is: ${hash.digest('hex')}`);
+
+  return currentDirectory
 }
