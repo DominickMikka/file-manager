@@ -41,7 +41,7 @@ export const copyFile = async (currentDirectory, path) => {
 
   const sourceStream = createReadStream(source);
   const destStream = createWriteStream(dest);
-  
+
   sourceStream.pipe(destStream);
 }
 
@@ -51,7 +51,11 @@ export const moveFile = async (currentDirectory, path) => {
   let dest = resolve(currentDirectory, args[1]);
   dest = `${dest}\\${basename(source)}`;
 
-  await copyF(source, dest);
+  const sourceStream = createReadStream(source);
+  const destStream = createWriteStream(dest);
+  
+  sourceStream.pipe(destStream);
+
   await rm(source);
 }
 
