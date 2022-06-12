@@ -18,8 +18,8 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-let lastArgument = process.argv.slice(3).toString();
-let userName = lastArgument.slice(11, lastArgument.length);
+const lastArgument = process.argv.slice(2).toString();
+const userName = lastArgument.slice(11, lastArgument.length);
 let currentDirectory = getHomeDirectory();
 console.log(`Welcome to the File Manager, ${userName}!`);
 console.log(`You are currently in ${currentDirectory}`);
