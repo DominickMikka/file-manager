@@ -1,5 +1,6 @@
 import { open, rename, copyFile as copyF, rm } from 'fs/promises';
 import { resolve, basename } from 'path';
+import { createReadStream, createWriteStream } from 'fs';
 
 export const readFile = async (currentDirectory, path) => {
   path = path.slice(4, path.length).trim();
@@ -38,7 +39,10 @@ export const copyFile = async (currentDirectory, path) => {
   let dest = resolve(currentDirectory, args[1]);
   dest = `${dest}\\${basename(source)}`;
 
-  await copyF(source, dest);
+  const sourceStream = createReadStream(source);
+  const destStream = createWriteStream(dest);
+  
+  sourceStream.pipe(destStream);
 }
 
 export const moveFile = async (currentDirectory, path) => {

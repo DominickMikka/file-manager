@@ -26,7 +26,7 @@ try {
     else if (command.startsWith('cd ')) currentDirectory = await goToDirectory(command, currentDirectory);
     else if (command.startsWith('cat ')) await readFile(currentDirectory, command);
     else if (command.startsWith('add ')) await createFile(currentDirectory, command);
-    else if (command.startsWith('rename ')) await renameFile(currentDirectory, command);
+    else if (command.startsWith('rn ')) await renameFile(currentDirectory, command);
     else if (command.startsWith('cp ')) await copyFile(currentDirectory, command);
     else if (command.startsWith('mv ')) await moveFile(currentDirectory, command);
     else if (command.startsWith('rm ')) await deleteFile(currentDirectory, command);
