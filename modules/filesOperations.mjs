@@ -1,5 +1,5 @@
 import { open, rename, copyFile as copyF, rm } from 'fs/promises';
-import { resolve, basename } from 'path';
+import { resolve, basename, dirname } from 'path';
 import { createReadStream, createWriteStream } from 'fs';
 
 export const readFile = async (currentDirectory, path) => {
@@ -21,6 +21,7 @@ export const createFile = async (currentDirectory, path) => {
   path = path.slice(4, path.length).trim();
   path = resolve(currentDirectory, path);
   const file = await open(path, 'wx');
+
   file.close();
 }
 
@@ -28,7 +29,7 @@ export const renameFile = async (currentDirectory, path) => {
   let [command, ...args] = path.split(' ');
 
   let source = resolve(currentDirectory, args[0]);
-  let dest = resolve(currentDirectory, args[1]);
+  let dest = resolve(dirname(source), args[1]);
 
   await rename(source, dest);
 }
