@@ -1,4 +1,4 @@
-import { open , writeFile } from 'fs/promises';
+import { open, rename, writeFile } from 'fs/promises';
 import { resolve } from 'path';
 
 export const readFile = async (currentDirectory, path) => {
@@ -21,4 +21,13 @@ export const createFile = async (currentDirectory, path) => {
   path = resolve(currentDirectory, path);
   const file = await open(path, 'wx');
   file.close();
+}
+
+export const renameFile = async (currentDirectory, path) => {
+  let [command, ...args] = path.split(' ');
+
+  let source = resolve(currentDirectory, args[0]);
+  let dest = resolve(currentDirectory, args[1]);
+
+  await rename(source, dest);
 }

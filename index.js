@@ -1,16 +1,9 @@
 import { goPreviousDirectory, goToDirectory, getElements } from './modules/navigate.mjs';
-import { readFile, createFile } from './modules/filesOperations.mjs';
+import { readFile, createFile, renameFile } from './modules/filesOperations.mjs';
 import { calculateHash } from './modules/hash.mjs';
 import { compress } from './modules/compress.mjs';
 import { decompress } from './modules/decompress.mjs';
-import { 
-         getHomeDirectory, 
-         printOsEol, 
-         getCpuInfo, 
-         printOsHomedir, 
-         printOsUsername, 
-         printOsArch 
-        } from './modules/os.mjs';
+import { getHomeDirectory, printOsEol, getCpuInfo, printOsHomedir, printOsUsername, printOsArch } from './modules/os.mjs';
 import { exitFileManager } from './modules/exit.mjs';
 
 import * as readline from 'readline';
@@ -33,6 +26,7 @@ try {
     else if (command.startsWith('cd ')) currentDirectory = await goToDirectory(command, currentDirectory);
     else if (command.startsWith('cat ')) await readFile(currentDirectory, command);
     else if (command.startsWith('add ')) await createFile(currentDirectory, command);
+    else if (command.startsWith('rename ')) await renameFile(currentDirectory, command);
     else if (command.startsWith('hash ')) await calculateHash(currentDirectory, command);
     else if (command.startsWith('compress ')) await compress(currentDirectory, command);
     else if (command.startsWith('decompress ')) await decompress(currentDirectory, command);
