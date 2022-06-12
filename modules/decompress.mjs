@@ -12,9 +12,13 @@ export const decompress = async (currentDirectory, path) => {
 
   const sourceFile = createReadStream(sourcePath);
   const destFile = createWriteStream(destPath);
+
+  console.log(sourcePath);
+  console.log(destPath);
+
   const brDecompress = createBrotliDecompress();
 
-  pipeline(sourceFile, brDecompress, destFile,  (err) => {
+  pipeline(sourceFile, brDecompress, destFile, (err) => {
     if (err) {
       console.log(err);
       process.exitCode = 1;
