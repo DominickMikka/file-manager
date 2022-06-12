@@ -1,4 +1,4 @@
-import { open, rename, copyFile as copyF, rm, writeFile } from 'fs/promises';
+import { open, rename, copyFile as copyF, rm } from 'fs/promises';
 import { resolve, basename } from 'path';
 
 export const readFile = async (currentDirectory, path) => {
@@ -48,5 +48,11 @@ export const moveFile = async (currentDirectory, path) => {
   dest = `${dest}\\${basename(source)}`;
 
   await copyF(source, dest);
+  await rm(source);
+}
+
+export const deleteFile = async (currentDirectory, path) => {
+  let [command, ...args] = path.split(' ');
+  let source = resolve(currentDirectory, args[0]);
   await rm(source);
 }
