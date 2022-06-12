@@ -2,6 +2,7 @@ import { goPreviousDirectory, goToDirectory, getElements } from './modules/navig
 import { readFile, createFile } from './modules/filesOperations.mjs';
 import { calculateHash } from './modules/hash.mjs';
 import { compress } from './modules/compress.mjs';
+import { decompress } from './modules/decompress.mjs';
 import { 
          getHomeDirectory, 
          printOsEol, 
@@ -25,13 +26,6 @@ let currentDirectory = getHomeDirectory();
 console.log(`Welcome to the File Manager, ${userName}!`);
 console.log(`You are currently in ${currentDirectory}`);
 
-//let currentDirectory = homeDirectory.split(sep);
-//join(currentDirectory);
-//resolve
-//console.log(process.chdir(currentDirectory));
-//console.log(process.cwd(currentDirectory));
-//console.log(process.chdir('./rsschool'));
-
 try {
   rl.on('line', async (command) => {
     if (command === 'up') currentDirectory = goPreviousDirectory(currentDirectory);
@@ -39,8 +33,9 @@ try {
     else if (command.startsWith('cd ')) currentDirectory = await goToDirectory(command, currentDirectory);
     else if (command.startsWith('cat ')) await readFile(currentDirectory, command);
     else if (command.startsWith('add ')) await createFile(currentDirectory, command);
-    else if (command.startsWith('hash ')) calculateHash(currentDirectory, command);
-    else if (command.startsWith('compress ')) compress(currentDirectory, command);
+    else if (command.startsWith('hash ')) await calculateHash(currentDirectory, command);
+    else if (command.startsWith('compress ')) await compress(currentDirectory, command);
+    else if (command.startsWith('decompress ')) await decompress(currentDirectory, command);
     else if (command === 'os --EOL') printOsEol();
     else if (command === 'os --cpus') getCpuInfo();
     else if (command === 'os --homedir') printOsHomedir(); 

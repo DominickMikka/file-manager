@@ -2,7 +2,7 @@ import { createReadStream } from 'fs';
 import { createHash } from 'crypto';
 import { resolve } from 'path';
 
-export const calculateHash = (currentDirectory, path) => {
+export const calculateHash = async (currentDirectory, path) => {
   
   path = path.slice(5, path.length).trim();
   path = resolve(currentDirectory, path);
