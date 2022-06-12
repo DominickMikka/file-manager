@@ -1,6 +1,7 @@
 import { goPreviousDirectory, goToDirectory, getElements } from './modules/navigate.mjs';
 import { readFile, createFile } from './modules/filesOperations.mjs';
 import { calculateHash } from './modules/hash.mjs';
+import { compress } from './modules/compress.mjs';
 import { 
          getHomeDirectory, 
          printOsEol, 
@@ -39,6 +40,7 @@ try {
     else if (command.startsWith('cat ')) await readFile(currentDirectory, command);
     else if (command.startsWith('add ')) await createFile(currentDirectory, command);
     else if (command.startsWith('hash ')) calculateHash(currentDirectory, command);
+    else if (command.startsWith('compress ')) compress(currentDirectory, command);
     else if (command === 'os --EOL') printOsEol();
     else if (command === 'os --cpus') getCpuInfo();
     else if (command === 'os --homedir') printOsHomedir(); 
