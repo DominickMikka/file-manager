@@ -1,5 +1,5 @@
 import { goPreviousDirectory, goToDirectory, getElements } from './modules/navigate.mjs';
-import { readFile, createFile, renameFile } from './modules/filesOperations.mjs';
+import { readFile, createFile, renameFile, copyFile } from './modules/filesOperations.mjs';
 import { calculateHash } from './modules/hash.mjs';
 import { compress } from './modules/compress.mjs';
 import { decompress } from './modules/decompress.mjs';
@@ -27,6 +27,7 @@ try {
     else if (command.startsWith('cat ')) await readFile(currentDirectory, command);
     else if (command.startsWith('add ')) await createFile(currentDirectory, command);
     else if (command.startsWith('rename ')) await renameFile(currentDirectory, command);
+    else if (command.startsWith('cp ')) await copyFile(currentDirectory, command);
     else if (command.startsWith('hash ')) await calculateHash(currentDirectory, command);
     else if (command.startsWith('compress ')) await compress(currentDirectory, command);
     else if (command.startsWith('decompress ')) await decompress(currentDirectory, command);
